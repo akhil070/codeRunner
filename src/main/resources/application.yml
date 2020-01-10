@@ -1,0 +1,15 @@
+server:
+  port: 9080
+
+hackerearth:
+  host: api.hackerearth.com
+  scheme: https
+  port: 80
+  compile-path: /v3/code/compile
+  run-path: /v3/code/run
+  client-secret: xyz
+  defaults:
+    async: 0
+    time-limit: 5
+    memory-limit: 262144
+    language: C
