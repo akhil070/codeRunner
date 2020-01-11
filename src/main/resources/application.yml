@@ -24,3 +24,8 @@ hackerearth:
     time-limit: 5
     memory-limit: 262144
     language: C
+
+amazon:
+  access-key: AKIATSY7NRRTFI3HOJUP
+  secret-key: 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
+  region: ap-southeast-1

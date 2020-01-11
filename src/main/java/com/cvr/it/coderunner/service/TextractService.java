@@ -13,6 +13,7 @@ import com.amazonaws.services.textract.model.Block;
 import com.amazonaws.services.textract.model.DetectDocumentTextRequest;
 import com.amazonaws.services.textract.model.DetectDocumentTextResult;
 import com.amazonaws.services.textract.model.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +28,15 @@ import software.amazon.awssdk.utils.IoUtils;
 @Slf4j
 public class TextractService {
     
+    @Autowired
+    AmazonTextract client;
+    
     public String processImage(MultipartFile file) {
         
         ByteBuffer imageData;
         try (InputStream inputStream = file.getInputStream()) {
             imageData = ByteBuffer.wrap(IoUtils.toByteArray(inputStream));
-            AmazonTextract client = AmazonTextractClientBuilder.defaultClient();
+            
             
             DetectDocumentTextRequest request = new DetectDocumentTextRequest()
                     .withDocument(new Document().withBytes(imageData));
@@ -42,9 +46,9 @@ public class TextractService {
             StringBuilder predictedCode = new StringBuilder();
             
             result.getBlocks().stream().filter(isTextBlock()).map(Block::getText)
-                  .forEach(line -> predictedCode.append(line));
+                  .forEach(line -> predictedCode.append(line+"\n"));
             
-            return result.toString();
+            return predictedCode.toString();
             
         } catch (FileNotFoundException fnfe) {
             log.error("file not found exception {}", fnfe.getStackTrace());
