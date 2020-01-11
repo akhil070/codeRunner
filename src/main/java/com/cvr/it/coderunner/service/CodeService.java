@@ -1,5 +1,9 @@
 package com.cvr.it.coderunner.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import com.cvr.it.coderunner.config.HackerEarthConfig;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,9 @@ public class CodeService {
     HackerEarthService hackerEarthService;
     
     @Autowired
+    TerminalService terminalService;
+    
+    @Autowired
     HackerEarthConfig config;
     
     public JSONObject compileCode(String code) {
@@ -27,6 +34,28 @@ public class CodeService {
     
     public JSONObject runCode(String code) {
         return hackerEarthService.callHackerEarth(code, config.getRunPath());
+    }
+    
+    public String compileLocally(String code, String language, String fileName) throws IOException,
+                                                                                       InterruptedException {
+        
+        try {
+            FileOutputStream file = new FileOutputStream("/home/krishnamohan/Music/" + fileName + ".c");
+            file.write(code.getBytes());
+            file.close();
+        } catch (IOException ex) {
+            log.error("failed to created file {}", ex.getStackTrace());
+            throw new IOException("failed to create file for compilation " + fileName);
+        }
+        
+        return terminalService.compile("/home/krishnamohan/Music/" + fileName);
+        
+    }
+    
+    public String runLocally(String fileName) throws IOException, InterruptedException {
+        
+        return terminalService.run("/home/krishnamohan/Music/" + fileName);
+        
     }
 
 }

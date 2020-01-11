@@ -1,7 +1,9 @@
 package com.cvr.it.coderunner.controller;
 
+import java.io.IOException;
+
+import com.cvr.it.coderunner.model.CodeRequest;
 import com.cvr.it.coderunner.service.CodeService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +28,24 @@ public class CodeController {
     
     @PostMapping("{version:v1}/compile")
     @ResponseBody
-    public JSONObject compileCode(@RequestBody String code, @PathVariable("version") String version) {
+    public String compileCode(@RequestBody CodeRequest code, @PathVariable("version") String version)
+    throws IOException, InterruptedException {
         if (version.equals("v2")) {
-            return service.compileCode(code);
-        } else return null;
+            return service.compileCode(code.getCode()).toString();
+        } else {
+            return service.compileLocally(code.getCode(), code.getLanguage(), code.getName());
+        }
     }
     
     @PostMapping("{version:v1}/run")
     @ResponseBody
-    public JSONObject runCode(@RequestBody String code, @PathVariable("version") String version) {
+    public String runCode(@RequestBody CodeRequest code, @PathVariable("version") String version)
+    throws IOException, InterruptedException {
         if (version.equals("v2")) {
-            return service.runCode(code);
-        } else return null;
+            return service.runCode(code.getCode()).toString();
+        } else {
+            return service.runLocally(code.getName());
+        }
     }
     
 }
