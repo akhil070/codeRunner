@@ -13,7 +13,7 @@ public class CodeRequest {
     
     String code;
     
-    String language;
+    Language language;
     
     String name;
     

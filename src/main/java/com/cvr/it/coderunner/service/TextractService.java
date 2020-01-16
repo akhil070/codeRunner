@@ -60,6 +60,6 @@ public class TextractService {
     }
     
     private static Predicate<Block> isTextBlock() {
-        return p -> p.getBlockType().equals("WORD") || p.getBlockType().equals("LINE");
+        return p -> p.getBlockType().equals("LINE");
     }
 }

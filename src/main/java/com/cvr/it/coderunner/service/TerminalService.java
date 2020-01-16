@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.cvr.it.coderunner.model.Language;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +50,7 @@ public class TerminalService {
         
     }
     
-    public String compile(String tempFilePath) throws IOException, InterruptedException {
+    public String compile(String tempFilePath, Language language) throws IOException, InterruptedException {
         
         StringBuilder output = new StringBuilder();
         
