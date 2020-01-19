@@ -25,6 +25,7 @@ dependencies {
 	implementation platform('software.amazon.awssdk:bom:2.5.29')
 	implementation 'software.amazon.awssdk:kinesis'
 	compile 'com.amazonaws:aws-java-sdk-textract:1.11.703'
+	compile 'com.google.cloud:google-cloud-vision:1.99.1'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
