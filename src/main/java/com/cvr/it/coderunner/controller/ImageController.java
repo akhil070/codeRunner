@@ -24,7 +24,7 @@ public class ImageController {
     private ImageService imageService;
     
     @PostMapping("/upload")
-    private ResponseEntity<String> getProcessedImage(@RequestParam(name = "file") MultipartFile file) {
+    private ResponseEntity<String> getProcessedImage(@RequestParam(name = "file") MultipartFile file) throws Exception {
         return ResponseEntity.ok().body(imageService.processImage(file));
     }
     

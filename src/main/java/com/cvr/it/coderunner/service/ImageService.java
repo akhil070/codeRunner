@@ -17,9 +17,13 @@ public class ImageService {
     
     @Autowired
     private TextractService textractService;
+    
+    @Autowired
+    private VisionService visionService;
 
-    public String processImage(MultipartFile file) {
-        return textractService.processImage(file);
+    public String processImage(MultipartFile file) throws Exception {
+        return visionService.detectText(file);
+//        return textractService.processImage(file);
     }
 
 }

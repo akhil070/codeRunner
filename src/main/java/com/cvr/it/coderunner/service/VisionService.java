@@ -49,7 +49,7 @@ public class VisionService {
         BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
         List<AnnotateImageResponse> responses = response.getResponsesList();
         
-        StringBuilder predicted = new StringBuilder();
+        String predicted = null;
         
         for (AnnotateImageResponse res : responses) {
             if (res.hasError()) {
@@ -58,10 +58,11 @@ public class VisionService {
             }
             
             // For full list of available annotations, see http://g.co/cloud/vision/docs
-            res.getTextAnnotationsList().stream().map(text -> predicted.append(text.getDescription()));
+            predicted = res.getTextAnnotationsList().get(0).getDescription();
+//            res.getTextAnnotationsList().stream().map(text -> predicted.append(text.getDescription()));
         }
         
-        return predicted.toString();
+        return predicted;
     }
     
 }
