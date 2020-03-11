@@ -41,7 +41,7 @@ public class CodeService {
                                                                                          InterruptedException {
         
         try {
-            FileOutputStream file = new FileOutputStream("/home/krishnamohan/Music/" + fileName + ".c");
+            FileOutputStream file = new FileOutputStream(fileName + ".c");
             file.write(code.getBytes());
             file.close();
         } catch (IOException ex) {
@@ -49,13 +49,13 @@ public class CodeService {
             throw new IOException("failed to create file for compilation " + fileName);
         }
         
-        return terminalService.compile("/home/krishnamohan/Music/" + fileName, language);
+        return terminalService.compile(fileName, language);
         
     }
     
     public String runLocally(String fileName) throws IOException, InterruptedException {
         
-        return terminalService.run("/home/krishnamohan/Music/" + fileName);
+        return terminalService.run(fileName);
         
     }
 
