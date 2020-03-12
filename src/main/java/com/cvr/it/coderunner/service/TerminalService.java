@@ -64,12 +64,9 @@ public class TerminalService {
     
     public String run(String tempFilePath) throws IOException, InterruptedException {
         
-        StringBuilder output = new StringBuilder();
+        ArrayList<String> commands = new ArrayList<>(Arrays.asList("./" + tempFilePath));
         
-        ArrayList<String> commands = new ArrayList<>(Arrays.asList(tempFilePath));
-        
-        log.info("started processing the command : {} {} {} {}", "gcc", tempFilePath, "-o",
-                 tempFilePath.substring(tempFilePath.lastIndexOf('/') + 1));
+        log.info("started processing the command : ", tempFilePath);
         
         return runCommand(commands);
     }
