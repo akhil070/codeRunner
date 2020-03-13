@@ -1,6 +1,8 @@
 package com.cvr.it.coderunner.service;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -71,6 +73,11 @@ public class TerminalService {
     public String run(String tempFilePath) throws IOException, InterruptedException, TerminalException {
         
         ArrayList<String> commands = new ArrayList<>(Arrays.asList("./" + tempFilePath));
+        
+        File f = new File(tempFilePath);
+        if (!f.exists()) {
+            throw new FileNotFoundException("compile code before executing");
+        }
         
         log.info("started processing the command : ", tempFilePath);
         

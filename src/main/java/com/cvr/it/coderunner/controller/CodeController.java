@@ -1,5 +1,6 @@
 package com.cvr.it.coderunner.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.cvr.it.coderunner.exception.TerminalException;
@@ -49,6 +50,8 @@ public class CodeController {
             return ResponseEntity.ok().body(service.runLocally(code.getName()));
         } catch (TerminalException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (FileNotFoundException fe) {
+            return ResponseEntity.badRequest().body(fe.getMessage());
         }
     }
     
