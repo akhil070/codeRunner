@@ -4,6 +4,7 @@ import com.cvr.it.coderunner.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
     
+    @CrossOrigin
     @PostMapping("/upload")
     private ResponseEntity<String> getProcessedImage(@RequestParam(name = "file") MultipartFile file) throws Exception {
         return ResponseEntity.ok().body(imageService.processImage(file));

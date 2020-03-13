@@ -9,6 +9,7 @@ import com.cvr.it.coderunner.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ public class CodeController {
     @Autowired
     private CodeService service;
     
+    @CrossOrigin
     @PostMapping("/compile")
     @ResponseBody
     public ResponseEntity<String> compileCode(@RequestBody CodeRequest code)
@@ -41,6 +43,7 @@ public class CodeController {
         
     }
     
+    @CrossOrigin
     @PostMapping("/run")
     @ResponseBody
     public ResponseEntity<String> runCode(@RequestBody CodeRequest code)
