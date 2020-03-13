@@ -1,6 +1,8 @@
 package com.cvr.it.coderunner.service;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.Feature;
@@ -24,7 +26,11 @@ public class VisionService {
     
     public String detectText(MultipartFile file) throws Exception, IOException {
         
-        AnnotateImageResponse response = template.analyzeImage(file.getResource(), Feature.Type.TEXT_DETECTION);
+        AnnotateImageResponse response = template.analyzeImage(file.getResource(),
+                                                               Feature.Type.TEXT_DETECTION);
+        
+        file.transferTo(Paths.get(String.format("clean-image %s", new Random().nextInt())) );
+        
         String textFromImage = this.template.extractTextFromImage(file.getResource());
         return textFromImage;
         

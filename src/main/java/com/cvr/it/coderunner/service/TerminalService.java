@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.cvr.it.coderunner.exception.TerminalException;
 import com.cvr.it.coderunner.model.Language;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TerminalService {
     
-    private String runCommand(ArrayList<String> commands) throws IOException, InterruptedException {
+    private static final String SUCCESS = "success";
+    private static final String FAILED = "failed";
+    
+    private String runCommand(ArrayList<String> commands)
+    throws IOException, InterruptedException, TerminalException {
         
         StringBuilder output = new StringBuilder();
         
@@ -42,15 +47,16 @@ public class TerminalService {
         int exited = process.exitValue();
         if (exited == 0) {
             log.info("success");
+            return output.toString();
         } else {
             log.error("failed");
+            throw new TerminalException(FAILED);
         }
-        
-        return output.toString();
         
     }
     
-    public String compile(String tempFilePath, Language language) throws IOException, InterruptedException {
+    public String compile(String tempFilePath, Language language)
+    throws IOException, InterruptedException, TerminalException {
         
         StringBuilder output = new StringBuilder();
         
@@ -62,7 +68,7 @@ public class TerminalService {
         return runCommand(commands);
     }
     
-    public String run(String tempFilePath) throws IOException, InterruptedException {
+    public String run(String tempFilePath) throws IOException, InterruptedException, TerminalException {
         
         ArrayList<String> commands = new ArrayList<>(Arrays.asList("./" + tempFilePath));
         

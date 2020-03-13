@@ -2,9 +2,11 @@ package com.cvr.it.coderunner.controller;
 
 import java.io.IOException;
 
+import com.cvr.it.coderunner.exception.TerminalException;
 import com.cvr.it.coderunner.model.CodeRequest;
 import com.cvr.it.coderunner.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,27 +26,29 @@ import lombok.extern.slf4j.Slf4j;
 public class CodeController {
     
     @Autowired
-    CodeService service;
+    private CodeService service;
     
-    @PostMapping("{version:v1}/compile")
+    @PostMapping("/compile")
     @ResponseBody
-    public String compileCode(@RequestBody CodeRequest code, @PathVariable("version") String version)
+    public ResponseEntity<String> compileCode(@RequestBody CodeRequest code)
     throws IOException, InterruptedException {
-        if (version.equals("v2")) {
-            return service.compileCode(code.getCode()).toString();
-        } else {
-            return service.compileLocally(code.getCode(), code.getLanguage(), code.getName());
+        try {
+            return ResponseEntity.ok().body(service.compileLocally(code.getCode(), code.getLanguage(), code.getName()));
+        } catch (TerminalException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+        
     }
     
-    @PostMapping("{version:v1}/run")
+    @PostMapping("/run")
     @ResponseBody
-    public String runCode(@RequestBody CodeRequest code, @PathVariable("version") String version)
+    public ResponseEntity<String> runCode(@RequestBody CodeRequest code)
     throws IOException, InterruptedException {
-        if (version.equals("v2")) {
-            return service.runCode(code.getCode()).toString();
-        } else {
-            return service.runLocally(code.getName());
+        
+        try {
+            return ResponseEntity.ok().body(service.runLocally(code.getName()));
+        } catch (TerminalException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     

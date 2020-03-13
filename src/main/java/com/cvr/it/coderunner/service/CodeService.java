@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.cvr.it.coderunner.config.HackerEarthConfig;
+import com.cvr.it.coderunner.exception.TerminalException;
 import com.cvr.it.coderunner.model.Language;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class CodeService {
         return hackerEarthService.callHackerEarth(code, config.getRunPath());
     }
     
-    public String compileLocally(String code, Language language, String fileName) throws IOException,
-                                                                                         InterruptedException {
+    public String compileLocally(String code, Language language, String fileName)
+    throws IOException, InterruptedException, TerminalException {
         
         try {
             FileOutputStream file = new FileOutputStream(fileName + ".c");
@@ -53,7 +54,7 @@ public class CodeService {
         
     }
     
-    public String runLocally(String fileName) throws IOException, InterruptedException {
+    public String runLocally(String fileName) throws IOException, InterruptedException, TerminalException {
         
         return terminalService.run(fileName);
         
