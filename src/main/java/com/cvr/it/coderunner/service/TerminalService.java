@@ -32,7 +32,8 @@ public class TerminalService {
         
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.command(commands);
-        
+        processBuilder.redirectErrorStream(true);
+    
         log.info("started processing the command : {}", commands);
         
         Process process = processBuilder.start();
@@ -52,7 +53,7 @@ public class TerminalService {
             return output.toString();
         } else {
             log.error("failed");
-            throw new TerminalException(FAILED);
+            throw new TerminalException(output.toString());
         }
         
     }
