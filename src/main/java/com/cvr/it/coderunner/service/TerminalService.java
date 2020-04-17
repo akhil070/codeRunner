@@ -71,12 +71,17 @@ public class TerminalService {
         return runCommand(commands);
     }
     
-    public String run(String tempFilePath) throws IOException, InterruptedException, TerminalException {
+    public String run(String tempFilePath, Language language) throws IOException, InterruptedException, TerminalException {
         
-        ArrayList<String> commands = new ArrayList<>(Arrays.asList("./" + tempFilePath));
+        ArrayList<String> commands = null;
+        if (Language.valueOf("C").equals(language)) {
+            commands = new ArrayList<>(Arrays.asList("./" + tempFilePath));
+        } else {
+            commands = new ArrayList<>(Arrays.asList("node", tempFilePath + ".js"));
+        }
         
         File f = new File(tempFilePath);
-        if (!f.exists()) {
+        if (!f.exists() && Language.valueOf("C").equals(language)) {
             throw new FileNotFoundException("compile code before executing");
         }
         

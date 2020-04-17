@@ -11,10 +11,12 @@ import lombok.Data;
 @Data
 public class CodeRequest {
     
-    String code;
+    String code; // code text to compile/run
     
-    Language language;
+    Language language; // C, JAVA, JS
     
-    String name;
+    String name; // temp file name - compile - run - same name
+    
+    String command;
     
 }

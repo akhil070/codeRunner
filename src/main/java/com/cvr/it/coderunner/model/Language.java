@@ -6,5 +6,5 @@ package com.cvr.it.coderunner.model;
  **/
 
 public enum Language {
-    C, JAVA
+    C, JAVA, JS
 }

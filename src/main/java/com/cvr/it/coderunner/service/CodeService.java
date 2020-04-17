@@ -6,7 +6,10 @@ import java.io.IOException;
 
 import com.cvr.it.coderunner.config.HackerEarthConfig;
 import com.cvr.it.coderunner.exception.TerminalException;
+import com.cvr.it.coderunner.model.CodeRequest;
 import com.cvr.it.coderunner.model.Language;
+import com.cvr.it.coderunner.util.ChooseAction;
+import com.cvr.it.coderunner.util.TerminalAction;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,42 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CodeService {
     
     @Autowired
-    HackerEarthService hackerEarthService;
+    ChooseAction chooseAction;
     
-    @Autowired
-    TerminalService terminalService;
-    
-    @Autowired
-    HackerEarthConfig config;
-    
-    public JSONObject compileCode(String code) {
-        return hackerEarthService.callHackerEarth(code, config.getCompilePath());
-    }
-    
-    public JSONObject runCode(String code) {
-        return hackerEarthService.callHackerEarth(code, config.getRunPath());
-    }
-    
-    public String compileLocally(String code, Language language, String fileName)
-    throws IOException, InterruptedException, TerminalException {
-        
-        try {
-            FileOutputStream file = new FileOutputStream(fileName + ".c");
-            file.write(code.getBytes());
-            file.close();
-        } catch (IOException ex) {
-            log.error("failed to created file {}", ex.getStackTrace());
-            throw new IOException("failed to create file for compilation " + fileName);
-        }
-        
-        return terminalService.compile(fileName, language);
-        
-    }
-    
-    public String runLocally(String fileName) throws IOException, InterruptedException, TerminalException {
-        
-        return terminalService.run(fileName);
-        
+    public String runCommand(CodeRequest codeRequest) throws InterruptedException, TerminalException, IOException {
+        return chooseAction.get(codeRequest.getCommand()).execute(codeRequest);
     }
 
 }
