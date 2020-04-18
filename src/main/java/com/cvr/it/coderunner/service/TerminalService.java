@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.cvr.it.coderunner.exception.TerminalException;
 import com.cvr.it.coderunner.model.Language;
@@ -25,7 +26,7 @@ public class TerminalService {
     private static final String SUCCESS = "success";
     private static final String FAILED = "failed";
     
-    private String runCommand(ArrayList<String> commands)
+    public String runCommand(List<String> commands)
     throws IOException, InterruptedException, TerminalException {
         
         StringBuilder output = new StringBuilder();

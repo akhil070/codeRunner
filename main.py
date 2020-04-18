@@ -14,7 +14,7 @@ if __name__ == "__main__":
     file_name = file_name.split()[0]
 
     # Rescale the image, if needed.
-    img = cv2.resize(img, None, fx=6, fy=2, interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     # Convert to gray
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
     # Save the filtered image in the directory
-    cv2.imwrite(img_path, img)
+    cv2.imwrite(f'cleaned/{img_path}', img)
