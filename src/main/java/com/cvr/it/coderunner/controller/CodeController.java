@@ -44,7 +44,7 @@ public class CodeController {
                 return ResponseEntity.ok().body(service.runCommand(code));
             }
             
-            return ResponseEntity.ok().body("success");
+            return ResponseEntity.ok().body(code.getCode());
             
         } catch (TerminalException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
