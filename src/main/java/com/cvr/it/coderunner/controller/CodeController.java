@@ -39,10 +39,10 @@ public class CodeController {
             code.setCommand("compile");
             String response = service.runCommand(code);
             
-//            if (Language.valueOf("JS").equals(code.getLanguage())) {
-//                code.setCommand("run");
-//                return ResponseEntity.ok().body(service.runCommand(code));
-//            }
+            if (Language.valueOf("JS").equals(code.getLanguage())) {
+                code.setCommand("run");
+                return ResponseEntity.ok().body(service.runCommand(code));
+            }
             
             return ResponseEntity.ok().body(code.getCode());
             
