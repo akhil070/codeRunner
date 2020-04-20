@@ -43,11 +43,11 @@ public class VisionService {
         
         file.transferTo(Paths.get(path));
         
-        terminalService
-                .runCommand(Arrays.asList("/bin/bash", "-c", "source clean/bin/activate && python3 main.py " + path));
-    
 //        terminalService
-//                .runCommand(Arrays.asList("/bin/bash", "-c", "python3 main.py " + path));
+//                .runCommand(Arrays.asList("/bin/bash", "-c", "source clean/bin/activate && python3 main.py " + path));
+    
+        terminalService
+                .runCommand(Arrays.asList("/bin/bash", "-c", "python3 main.py " + path));
         
         MultipartFile multipartFile = new MockMultipartFile(String.format("code.%s", extension),
                                                             new FileInputStream(new File("cleaned/" + path)));
