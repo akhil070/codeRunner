@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import com.google.cloud.vision.v1.AnnotateImageResponse;
@@ -39,22 +37,22 @@ public class VisionService {
     
     public String detectText(MultipartFile file) throws Exception, IOException {
         
-        AnnotateImageResponse response = template.analyzeImage(file.getResource(), Feature.Type.TEXT_DETECTION);
-        String path = String.format("image-%s.jpeg", new Random().nextInt());
+//        AnnotateImageResponse response = template.analyzeImage(file.getResource(), Feature.Type.TEXT_DETECTION);
+        String extension = file.getContentType().split("/")[1];
+        String path = String.format("image-%s.%s", new Random().nextInt(), extension);
         
         file.transferTo(Paths.get(path));
         
-//        terminalService
-//                .runCommand(Arrays.asList("/bin/bash", "-c", "source clean/bin/activate && python3 main.py " + path));
-    
         terminalService
-                .runCommand(Arrays.asList("/bin/bash", "-c", "python3 main.py " + path));
+                .runCommand(Arrays.asList("/bin/bash", "-c", "source clean/bin/activate && python3 main.py " + path));
+    
+//        terminalService
+//                .runCommand(Arrays.asList("/bin/bash", "-c", "python3 main.py " + path));
         
-        MultipartFile multipartFile = new MockMultipartFile("code.jpeg",
+        MultipartFile multipartFile = new MockMultipartFile(String.format("code.%s", extension),
                                                             new FileInputStream(new File("cleaned/" + path)));
         
         String textFromImage = this.template.extractTextFromImage(multipartFile.getResource());
-        
         return textFromImage;
         
     }

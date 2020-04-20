@@ -1,0 +1,31 @@
+server:
+  port: 9080
+  tomcat:
+    basedir:  /var/log/tomcat
+    accesslog:
+      enabled: false
+      directory:
+      prefix: access.
+      suffix: _00_00.log
+      rotate: true
+      file-date-format: YYYY-MM-dd-HH
+      pattern: "{ \"akamai_ip\":\"%{ns-remote-addr}i\" , \"client_ip\":\"%{True-Client-IP}i\", \"remote_ip_address\":\"%a\" ,\"local_ip_address\":\"%A\",\"ident\":\"%l\", \"remote_user\":\"%u\",\"time\":\"%t\",\"path\":\"%U\", \"request_first_line\":\"%r\",\"response_code\":\"%s\",\"response_time\":\"%D\",\"bytes\":\"%b\", \"referrer\": \"%{Referer}i\" , \"user_agent\":\"%{User-Agent}i\" , \"ssl\":\"%{ns-ssl}i\" , \"request_thread\":\"%I\"}"
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+hackerearth:
+  host: api.hackerearth.com
+  scheme: https
+  port: 80
+  compile-path: /v3/code/compile
+  run-path: /v3/code/run
+  client-secret: xyz
+  defaults:
+    async: 0
+    time-limit: 5
+    memory-limit: 262144
+    language: C

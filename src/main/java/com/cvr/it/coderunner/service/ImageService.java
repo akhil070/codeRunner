@@ -1,6 +1,9 @@
 package com.cvr.it.coderunner.service;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +23,17 @@ public class ImageService {
     
     @Autowired
     private VisionService visionService;
+    
+    public static final String FAILED = "HAS_ONE_FAILED_IMAGE";
 
-    public String processImage(MultipartFile file) throws Exception {
-        return visionService.detectText(file);
+    public String processImage(List<MultipartFile> files) throws Exception {
+        return files.stream().map(file -> {
+            try {
+                return visionService.detectText(file);
+            } catch (Exception e) {
+                return FAILED;
+            }
+        }).collect(Collectors.joining("\n"));
 //        return textractService.processImage(file);
     }
 

@@ -1,6 +1,11 @@
 package com.cvr.it.coderunner.controller;
 
+import static com.cvr.it.coderunner.service.ImageService.FAILED;
+
+import java.util.List;
+
 import com.cvr.it.coderunner.service.ImageService;
+import com.google.rpc.BadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,8 +31,15 @@ public class ImageController {
     
     @CrossOrigin
     @PostMapping("/upload")
-    private ResponseEntity<String> getProcessedImage(@RequestParam(name = "file") MultipartFile file) throws Exception {
-        return ResponseEntity.ok().body(imageService.processImage(file));
+    private ResponseEntity<String> getProcessedImage(@RequestParam(name = "file") List<MultipartFile> files) throws Exception {
+        if (files.size() == 0) {
+            return ResponseEntity.badRequest().body("no files added");
+        }
+        String text = imageService.processImage(files);
+        if (text.contains(FAILED)) {
+            return ResponseEntity.badRequest().body("Failed to process one or more images");
+        }
+        return ResponseEntity.ok().body(imageService.processImage(files));
     }
     
     
