@@ -38,7 +38,7 @@ public class VisionService {
     public String detectText(MultipartFile file) throws Exception, IOException {
         
 //        AnnotateImageResponse response = template.analyzeImage(file.getResource(), Feature.Type.TEXT_DETECTION);
-        String extension = file.getContentType().split("/")[1];
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
         String path = String.format("image-%s.%s", new Random().nextInt(), extension);
         
         file.transferTo(Paths.get(path));
